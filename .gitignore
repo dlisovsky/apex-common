@@ -19,3 +19,4 @@ debug/*
 #  execute anonymous functionality, while keeping named scripts
 apex-scripts/* 
 !apex-scripts/*.cls
+*fflib_*

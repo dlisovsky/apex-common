@@ -50,5 +50,14 @@ public class RecordTypeService {
 	    
 	    return result;
 	}
+	
+	public static Id getRecordTypeId(Schema.sObjectType sObjectType, String name){
+		Map<String, RecordType> recordTypesMap = RecordTypeService.selectRecordTypesAsMapByName(sObjectType);
+		RecordType recordTypeVar = recordTypesMap.get(name);
+		if(recordTypeVar == null){
+			throw new Exceptions.MissingDataException('No ' + sObjectType + ' RecordType with Name: ' + name);
+		}	
+		return recordTypeVar.Id;
+	}
 
 }

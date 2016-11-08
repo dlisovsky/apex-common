@@ -40,12 +40,23 @@ public class RecordTypeService {
 
 
 	public static Map<String, RecordType> selectRecordTypesAsMapByName(Schema.SobjectType sObjectType){
+	    return selectRecordTypesAsMapByKey(sObjectType, RecordType.Name);
+	}
+	
+	public static Map<String, RecordType> selectRecordTypesAsMapByApiName(Schema.SobjectType sObjectType){
+	    return selectRecordTypesAsMapByKey(sObjectType, RecordType.DeveloperName);
+	}
+	
+	private static Map<String, RecordType> selectRecordTypesAsMapByKey(Schema.SobjectType sObjectType, Schema.SobjectField keyField){
 	    List<RecordType> recordTypes = new RecordTypeSelector().selectActiveBySObjectType(sObjectType);
 	    
 	    Map<String, RecordType> result = new Map<String, RecordType>();
 	
+	    String keyFieldName = '' + keyField;
+	
 	    for(RecordType recType : recordTypes){
-	        result.put(recType.Name, recType);
+	        String keyFieldValue = (String)recType.get(keyFieldName);
+	        result.put(keyFieldValue, recType);
 	    }
 	    
 	    return result;
@@ -56,6 +67,15 @@ public class RecordTypeService {
 		RecordType recordTypeVar = recordTypesMap.get(name);
 		if(recordTypeVar == null){
 			throw new Exceptions.MissingDataException('No ' + sObjectType + ' RecordType with Name: ' + name);
+		}	
+		return recordTypeVar.Id;
+	}
+	
+	public static Id getRecordTypeIdByApiName(Schema.sObjectType sObjectType, String apiName){
+		Map<String, RecordType> recordTypesMap = RecordTypeService.selectRecordTypesAsMapByName(sObjectType);
+		RecordType recordTypeVar = recordTypesMap.get(apiName);
+		if(recordTypeVar == null){
+			throw new Exceptions.MissingDataException('No ' + sObjectType + ' RecordType with Name: ' + apiName);
 		}	
 		return recordTypeVar.Id;
 	}

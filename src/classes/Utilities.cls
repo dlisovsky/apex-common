@@ -5,7 +5,7 @@ public class Utilities {
         Lazy props.
     
     *******************************************************************************************************/
-	
+    
     public static PicklistExtentions picklistExtentions {get {
         if (picklistExtentions == null){
             picklistExtentions = new PicklistExtentions();
@@ -509,6 +509,23 @@ public class Utilities {
                 sObjects.add(obj);
             }
             return sObjects;
+        }
+
+        public Set<Id> getIdFieldValues(List<sObject> records, Schema.SObjectField field){
+
+            Set<Id> values = new Set<Id>();
+
+            String fieldName = '' + field;
+
+            for(sObject rec : records){
+                Id value = (Id)rec.get(fieldName);
+                if (value != null){
+                    values.add(value);
+                }
+            }
+
+            return values;
+
         }
 
     }

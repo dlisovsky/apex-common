@@ -1,18 +1,7 @@
-public class RecordTypeSelector extends fflib_SObjectSelector {
+public class RecordTypeSelector extends DynamicSelector {
 
-    private static List<Schema.SObjectField> FIELDS {get {
-        if (FIELDS == null){
-            FIELDS = Schema.SObjectType.RecordType.fields.getMap().values();
-        }
-        return FIELDS;
-    } private set;}
-
-    public Schema.SObjectType getSObjectType(){
-        return RecordType.getSObjectType();
-    }
-    
-    public List<Schema.SObjectField> getSObjectFieldList(){
-        return FIELDS;
+    public RecordTypeSelector(){
+        super(RecordType.getSObjectType());
     }
 
     public List<RecordType> selectActiveBySObjectType(Schema.SobjectType sobjectType){

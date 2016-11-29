@@ -666,6 +666,23 @@ public class Utilities {
             }
             return anArray;
         }
+
+        public static Map<String, String> changeMapKeys(Map<String, String> source, Map<String, String> donor){
+        
+            if (source == null){
+                return null;
+            }
+            
+            Map<String, String> result = new Map<String, String>();
+            
+            for(String sourceKey : source.keySet()){
+                if (donor.containsKey(sourceKey)){
+                    result.put(donor.get(sourceKey), source.get(sourceKey));
+                }
+            }
+            
+            return result;
+        } 
     }
 
     

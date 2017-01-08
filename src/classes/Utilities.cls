@@ -709,7 +709,7 @@ public class Utilities {
             return anArray;
         }
 
-        public static Map<String, String> changeMapKeys(Map<String, String> source, Map<String, String> donor){
+        public Map<String, String> changeMapKeys(Map<String, String> source, Map<String, String> donor){
         
             if (source == null){
                 return null;

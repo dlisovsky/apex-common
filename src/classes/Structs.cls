@@ -17,10 +17,10 @@ global class Structs {
 
     global class SelectOption{
         
-        public String value;
+        public Object value;
         public String label;
         
-        public SelectOption(String value, String label){
+        public SelectOption(Object value, String label){
             this.value = value;
             this.label = label;
         }

@@ -569,6 +569,16 @@ public class Utilities {
             return values;
 
         }
+        
+        public void putAllRecordsByKeyField(List<sObject> records, String keyField, Map<String, sObject> mappedRecords){
+            for(sObject record : records){
+                String value = (String)record.get(keyField);
+                if (String.isNotBlank(value)){
+                    value = value.trim().toUpperCase();
+                    mappedRecords.put(value, record);
+                }
+            }
+        }
 
     }
 
@@ -725,6 +735,12 @@ public class Utilities {
             
             return result;
         } 
+        
+        public void addToSetIfNotBlank(Set<String> dataSet, String value){
+            if (String.isNotBlank(value)){
+                dataSet.add(value);
+            }
+        }
     }
 
     

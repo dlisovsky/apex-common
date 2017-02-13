@@ -35,7 +35,12 @@ global class Structs {
             this.label = label;
         }
     }
-
+    
+    public virtual class LookupOptionRequest {
+        public String searchTerm;
+        public String parentId;
+    }
+    
     public static LookupOption convertSObjetToLookupOtion(sObject obj, String idFieldName, String labelFieldname){        
         return new LookupOption(
             (String)obj.get(idFieldName),

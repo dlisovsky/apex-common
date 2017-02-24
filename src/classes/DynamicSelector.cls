@@ -85,6 +85,25 @@ public virtual class DynamicSelector extends fflib_SObjectSelector {
 
     }
 
+    public List<sObject> selectByNames(Set<String> names){
+
+        fflib_QueryFactory queryFactory = newQueryFactory()
+                .setCondition('Name IN :names');
+
+        String soql = queryFactory.toSOQL();
+
+        return Database.query(soql);
+
+    }
+
+    public List<sObject> selectByQueryFactory(fflib_QueryFactory queryFactory) {
+        String soql = queryFactory.toSOQL();
+
+        System.debug('DynamicSelector: selectByQueryFactory: ' + soql);
+
+        return Database.query(soql);
+    }
+
 
     public fflib_QueryFactory queryFactoryByAndConditions(List<String> conditions, Integer limitVar){
         return queryFactoryByCondition(

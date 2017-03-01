@@ -72,7 +72,7 @@ public class RecordTypeService {
 	}
 	
 	public static Id getRecordTypeIdByApiName(Schema.sObjectType sObjectType, String apiName){
-		Map<String, RecordType> recordTypesMap = RecordTypeService.selectRecordTypesAsMapByName(sObjectType);
+		Map<String, RecordType> recordTypesMap = RecordTypeService.selectRecordTypesAsMapByApiName(sObjectType);
 		RecordType recordTypeVar = recordTypesMap.get(apiName);
 		if(recordTypeVar == null){
 			throw new Exceptions.MissingDataException('No ' + sObjectType + ' RecordType with Name: ' + apiName);

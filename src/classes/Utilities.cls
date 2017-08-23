@@ -473,7 +473,19 @@ public class Utilities {
             if (index == str.length()) return null;    
 
             return str.substring(index, index+1);
-        }     
+        }    
+        
+        public String joinNonBlank(List<String> parts, String separator){
+            List<String> notBlankParts = new List<String>();
+
+            for(String part : parts){
+                if(String.isNotBlank(part)){
+                    notBlankParts.add(part);
+                }
+            }
+
+            return String.join(notBlankParts, separator);
+        }
         
     }
     

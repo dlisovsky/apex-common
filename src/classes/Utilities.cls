@@ -592,17 +592,17 @@ public class Utilities {
             }
         }
 
-        public Map<Object, SObject> getSObjectsByAnyFieldMap(List<SObject> sObjects, Schema.SObjectField sObjectField) {
-            Map<Object, SObject> resultMap = new Map<Object, SObject>();
+        public Map<String, SObject> getSObjectsByAnyFieldMap(List<SObject> sObjects, Schema.SObjectField sObjectField) {
+            Map<String, SObject> resultMap = new Map<String, SObject>();
             for (SObject record : sObjects) {
-                Object value = record.get(sObjectField);
+                String value = (String)record.get(sObjectField);
                 if (value != null) {
                     resultMap.put(value, record);
                 }
             }
             return resultMap;
         }
-
+        
     }
 
     

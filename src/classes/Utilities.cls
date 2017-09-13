@@ -592,6 +592,17 @@ public class Utilities {
             }
         }
 
+        public Map<Object, SObject> getSObjectsByAnyFieldMap(List<SObject> sObjects, Schema.SObjectField sObjectField) {
+            Map<Object, SObject> resultMap = new Map<Object, SObject>();
+            for (SObject record : sObjects) {
+                Object value = record.get(sObjectField);
+                if (value != null) {
+                    resultMap.put(value, record);
+                }
+            }
+            return resultMap;
+        }
+
     }
 
     
@@ -641,6 +652,22 @@ public class Utilities {
             ];
             
             return templates.isEmpty() ? null : templates[0].Id;
+        }
+        
+        public Messaging.SingleEmailMessage createSingleEmail(Id targetId, Id whatId, Id templateId, Id orgWideEmailId){
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            mail.setTargetObjectId(targetId);
+            if (whatId != null) {
+                mail.setWhatId(whatId);
+            }
+            mail.setTemplateId(templateId);
+            mail.setSaveAsActivity(false);
+
+            if (orgWideEmailId != null) {
+                mail.setOrgWideEmailAddressId(orgWideEmailId);
+            }
+
+            return mail;
         }
     }
 
@@ -787,6 +814,57 @@ public class Utilities {
             return String.join(addressParts, ', ');
         }
 
+        public String formatDateRange(Datetime startDate, Datetime endDate) {
+            String endDateFullFormatted = endDate == null ? '' : endDate.format('EEEE d\'th\' MMM, yyyy');
+            if (startDate != null) {
+                String startDateFullFormatted = startDate.format('EEEE d\'th\' MMM, yyyy');
+                if (endDate != null) {
+                    // The same Year
+                    if (startDate.year() == endDate.year()) {
+                        // The same Month
+                        if (startDate.month() == endDate.month()) {
+                            // The same Day
+                            if (startDate.day() == endDate.day()) {
+                                return endDateFullFormatted;
+                            } else {
+                                return startDate.format('EEEE d\'th\'') + ' to ' + endDateFullFormatted;
+                            }
+                        } else {
+                            return startDate.format('EEEE d\'th\' MMM') + ' to ' + endDateFullFormatted;
+                        }
+                    } else {
+                        return startDateFullFormatted + ' to ' + endDateFullFormatted;
+                    }
+                } else {
+                    return startDateFullFormatted;
+                }
+            } else {
+                return endDateFullFormatted;
+            }
+        }
+
+        public String formatTimeRange(Datetime startDate, Datetime endDate) {
+            String endTimeFullFormatted = endDate == null ? '' : endDate.format('h:mm a');
+            if (startDate != null) {
+                String startTimeFullFormatted = startDate.format('h:mm a');
+                if (endDate != null) {
+                    // The same Time
+                    if (startDate.time() == endDate.time()) {
+                        return endTimeFullFormatted;
+                    } else {
+                        return startTimeFullFormatted + ' - ' + endTimeFullFormatted;
+                    }
+                } else {
+                    return startTimeFullFormatted;
+                }
+            } else {
+                return endTimeFullFormatted;
+            }
+        }
+
+        public String longTextAreaToHTML(String text) {
+            return text == null ? text : text.replaceAll('\\r\\n', '<br/>').replaceAll('\\n', '<br/>');
+        }
 
         /*
         formatPhoneNumbers(

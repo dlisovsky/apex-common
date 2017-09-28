@@ -113,6 +113,22 @@ public class Utilities {
             return selectOptions;
         }
         
+        public Map<String, List<Structs.SelectOption>> getPicklistOptionsMap(Set<SObjectField> fields){
+
+            Map<String, List<Structs.SelectOption>> result = new Map<String, List<Structs.SelectOption>>();
+
+            for(SObjectField field : fields){
+                String key = this.getFieldKey(field);
+                result.put(key, this.getPicklistValuesAsSelectOptions(field));
+            }
+
+            return result;
+        }
+
+        private String getFieldKey(SObjectField field){
+            String fieldName = String.valueOf(field);
+            return fieldName.remove('__c').replaceAll('_', '') + 'Options';
+        }
 
         // http://titancronus.com/blog/2014/05/01/salesforce-acquiring-dependent-picklists-in-apex/
         public Map<String, List<Structs.SelectOption>> getDependentOptions(Schema.SObjectType pType, Schema.SObjectField controllingField, Schema.SObjectField dependentField){

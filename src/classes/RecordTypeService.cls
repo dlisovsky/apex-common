@@ -48,7 +48,7 @@ public class RecordTypeService {
 	}
 	
 	private static Map<String, RecordType> selectRecordTypesAsMapByKey(Schema.SobjectType sObjectType, Schema.SobjectField keyField){
-	    List<RecordType> recordTypes = new RecordTypeSelector().selectActiveBySObjectType(sObjectType);
+	    List<RecordType> recordTypes = [SELECT Id, Name, DeveloperName FROM RecordType WHERE SobjectType = :sObjectType AND IsActive = true];
 	    
 	    Map<String, RecordType> result = new Map<String, RecordType>();
 	

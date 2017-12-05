@@ -15,8 +15,9 @@ debug/*
 #OPTIONAL Apex scripts exclusion
 # - Rule 1 excludes the contents of the apex-scripts folder
 # - Rule 2 adds in NAMED apex scripts
-# Together: excludes scripts run though MavensMate’s 
+# Together: excludes scripts run though MavensMateï¿½s 
 #  execute anonymous functionality, while keeping named scripts
 apex-scripts/* 
 !apex-scripts/*.cls
 *fflib_*
+/apex-common.iml

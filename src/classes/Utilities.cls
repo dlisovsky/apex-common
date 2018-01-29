@@ -619,6 +619,38 @@ public class Utilities {
             return resultMap;
         }
         
+		public Set<SObjectField> getUpdatableFields(SObjectType sObjectTypeVar){
+
+			Set<SObjectField> updatableFields = new Set<SObjectField>();
+
+			Map<String, SObjectField> fieldMap = fflib_SObjectDescribe.getDescribe(sObjectTypeVar).getFieldsMap();
+			for (String fieldName : fieldMap.keySet()) {
+				SObjectField fieldVar = fieldMap.get(fieldName);
+				if(fieldVar.getDescribe().isUpdateable()){
+					updatableFields.add(fieldVar);
+				}
+			}
+
+			return updatableFields;
+		}
+
+		public void addAmountToField(SObject record, SObjectField field, Decimal amount){
+
+			if(amount == null){
+				return;
+			}
+
+			Decimal currentValue = (Decimal)record.get(field);
+
+			if(currentValue == null){
+				currentValue = amount;
+			} else {
+				currentValue += amount;
+			}
+
+			record.put(field, currentValue);
+		}
+        
     }
 
     

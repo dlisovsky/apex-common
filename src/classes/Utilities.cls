@@ -863,9 +863,11 @@ public class Utilities {
         }
 
         public String formatDateRange(Datetime startDate, Datetime endDate) {
-            String endDateFullFormatted = endDate == null ? '' : endDate.format('EEEE d\'th\' MMM, yyyy');
+            String startOrdinalIndicator = getOrdinalIndicator(startDate);
+            String endOrdinalIndicator = getOrdinalIndicator(endDate);
+            String endDateFullFormatted = endDate == null ? '' : endDate.format('EEEE d\'' + endOrdinalIndicator + '\' MMM, yyyy');
             if (startDate != null) {
-                String startDateFullFormatted = startDate.format('EEEE d\'th\' MMM, yyyy');
+                String startDateFullFormatted = startDate.format('EEEE d\'' + startOrdinalIndicator + '\' MMM, yyyy');
                 if (endDate != null) {
                     // The same Year
                     if (startDate.year() == endDate.year()) {
@@ -875,10 +877,10 @@ public class Utilities {
                             if (startDate.day() == endDate.day()) {
                                 return endDateFullFormatted;
                             } else {
-                                return startDate.format('EEEE d\'th\'') + ' to ' + endDateFullFormatted;
+                                return startDate.format('EEEE d\'' + startOrdinalIndicator + '\'') + ' to ' + endDateFullFormatted;
                             }
                         } else {
-                            return startDate.format('EEEE d\'th\' MMM') + ' to ' + endDateFullFormatted;
+                            return startDate.format('EEEE d\'' + startOrdinalIndicator + '\' MMM') + ' to ' + endDateFullFormatted;
                         }
                     } else {
                         return startDateFullFormatted + ' to ' + endDateFullFormatted;
@@ -889,6 +891,23 @@ public class Utilities {
             } else {
                 return endDateFullFormatted;
             }
+        }
+
+        public String getOrdinalIndicator(Datetime dateTimeVar) {
+            String ordinalIndicator = 'th';
+            if (dateTimeVar != null) {
+                Integer day = dateTimeVar.day();
+                if (Math.mod(day, 10) == 1 && day / 10 != 1) {
+                    ordinalIndicator = 'st';
+                }
+                if (Math.mod(day, 10) == 2 && day / 10 != 1) {
+                    ordinalIndicator = 'nd';
+                }
+                if (Math.mod(day, 10) == 3 && day / 10 != 1) {
+                    ordinalIndicator = 'rd';
+                }
+            }
+            return ordinalIndicator;
         }
 
         public String formatTimeRange(Datetime startDate, Datetime endDate) {
